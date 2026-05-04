@@ -1,0 +1,35 @@
+[allow_multiple: false]
+## [Visual Studio]
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## [Build Results]
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.msi
+*.msm
+
+## [NuGet Packages]
+*.nupkg
+packages/
+
+## [Database]
+*.db
+*.db-shm
+*.db-wal
+
+## [OS Generated Files]
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+## [User Specific]
+*.log
+*.tmp
