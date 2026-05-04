@@ -42,7 +42,7 @@ StockFlow is a modern, professional **Single-Form Application (SPA)** designed f
 ## 🛠️ Technology Stack
 - **Languages**: C#
 - **Framework**: .NET WinForms
-- **Data Persistence**: Entity Framework Core with SQLite
+- **Data Persistence**: Entity Framework Core with SQL Server
 - **Architecture**: Service-Repository Pattern
 
 ## 🛡️ Security & Roles
