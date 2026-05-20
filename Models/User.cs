@@ -17,7 +17,7 @@ namespace StockFlow.Models
 
         [Required]
         [MaxLength(20)]
-        public string Role { get; set; } = "Staff"; // "Admin" or "Staff"
+        public string Role { get; set; } = "Staff";
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }

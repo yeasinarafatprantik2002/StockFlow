@@ -59,8 +59,6 @@ namespace StockFlow.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Seed an initial Admin user if desired, but we can do that later or in AuthService.
-            // Setup constraints (e.g. unique username)
             modelBuilder.Entity<User>()
                 .HasIndex("Username")
                 .IsUnique();
