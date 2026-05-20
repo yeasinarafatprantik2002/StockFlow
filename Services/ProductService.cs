@@ -19,31 +19,49 @@ namespace StockFlow.Services
 
         public async Task<Product?> GetProductByIdAsync(int id)
         {
-            return await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .FirstOrDefaultAsync(p => p.Id == id);
+            List<Product> products = await _context.Products
+                .Include("Category")
+                .Include("Supplier")
+                .ToListAsync();
+
+            foreach (Product product in products)
+            {
+                if (product.Id == id)
+                {
+                    return product;
+                }
+            }
+            return null;
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
             return await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
+                .Include("Category")
+                .Include("Supplier")
                 .ToListAsync();
         }
 
         public async Task<List<Product>> SearchProductsAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
+            {
                 return await GetAllProductsAsync();
+            }
 
             query = query.ToLower();
-            return await _context.Products
-                .Include(p => p.Category)
-                .Include(p => p.Supplier)
-                .Where(p => p.Name.ToLower().Contains(query) || p.Category.Name.ToLower().Contains(query))
-                .ToListAsync();
+            List<Product> products = await GetAllProductsAsync();
+            List<Product> result = new List<Product>();
+            foreach (Product product in products)
+            {
+                bool nameMatches = product.Name.ToLower().Contains(query);
+                bool categoryMatches = product.Category != null && product.Category.Name.ToLower().Contains(query);
+                if (nameMatches || categoryMatches)
+                {
+                    result.Add(product);
+                }
+            }
+            return result;
         }
 
         public async Task AddProductAsync(Product product)
@@ -70,46 +88,66 @@ namespace StockFlow.Services
 
         public async Task<List<StockTransaction>> GetStockLedgerAsync(int? productId = null)
         {
-            var query = _context.StockTransactions
-                .Include(t => t.Product)
-                .Include(t => t.User)
-                .AsQueryable();
+            List<StockTransaction> allTransactions = await _context.StockTransactions
+                .Include("Product")
+                .Include("User")
+                .ToListAsync();
 
-            if (productId.HasValue)
-                query = query.Where(t => t.ProductId == productId.Value);
+            List<StockTransaction> filteredTransactions = new List<StockTransaction>();
+            foreach (StockTransaction transaction in allTransactions)
+            {
+                if (!productId.HasValue || transaction.ProductId == productId.Value)
+                {
+                    filteredTransactions.Add(transaction);
+                }
+            }
 
-            return await query.OrderByDescending(t => t.Date).ToListAsync();
+            filteredTransactions.Sort(CompareStockTransactionsByDateDescending);
+            return filteredTransactions;
+        }
+
+        private static int CompareStockTransactionsByDateDescending(StockTransaction first, StockTransaction second)
+        {
+            return second.Date.CompareTo(first.Date);
         }
 
         public async Task<bool> AdjustStockAsync(int productId, int adjustment, string type, int userId)
         {
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
+            using (var transaction = await _context.Database.BeginTransactionAsync())
             {
-                var product = await _context.Products.FindAsync(productId);
-                if (product == null) return false;
-
-                product.Quantity += adjustment;
-                if (product.Quantity < 0) return false;
-
-                var stockTx = new StockTransaction
+                try
                 {
-                    ProductId = productId,
-                    Quantity = adjustment,
-                    TransactionType = type,
-                    Date = DateTime.UtcNow,
-                    UserId = userId
-                };
+                    var product = await _context.Products.FindAsync(productId);
+                    if (product == null)
+                    {
+                        return false;
+                    }
 
-                await _context.StockTransactions.AddAsync(stockTx);
-                await _context.SaveChangesAsync();
-                await transaction.CommitAsync();
-                return true;
-            }
-            catch
-            {
-                await transaction.RollbackAsync();
-                return false;
+                    product.Quantity += adjustment;
+                    if (product.Quantity < 0)
+                    {
+                        return false;
+                    }
+
+                    var stockTx = new StockTransaction
+                    {
+                        ProductId = productId,
+                        Quantity = adjustment,
+                        TransactionType = type,
+                        Date = DateTime.UtcNow,
+                        UserId = userId
+                    };
+
+                    await _context.StockTransactions.AddAsync(stockTx);
+                    await _context.SaveChangesAsync();
+                    await transaction.CommitAsync();
+                    return true;
+                }
+                catch
+                {
+                    await transaction.RollbackAsync();
+                    return false;
+                }
             }
         }
     }

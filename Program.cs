@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using StockFlow.Data;
@@ -26,8 +25,18 @@ namespace StockFlow
                 var userRepository = new Repository<User>(context);
                 var authService = new AuthService(userRepository);
 
-                var superAdmins = await userRepository.FindAsync(u => u.Role == "SuperAdmin");
-                if (!superAdmins.Any())
+                bool hasSuperAdmin = false;
+                var users = await userRepository.GetAllAsync();
+                foreach (User user in users)
+                {
+                    if (user.Role == "SuperAdmin")
+                    {
+                        hasSuperAdmin = true;
+                        break;
+                    }
+                }
+
+                if (!hasSuperAdmin)
                 {
                     await authService.RegisterAsync("superadmin", "superadmin", "SuperAdmin");
                 }

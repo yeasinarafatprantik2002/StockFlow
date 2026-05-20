@@ -17,24 +17,40 @@ namespace StockFlow.Services
 
         public async Task<Category?> GetCategoryByIdAsync(int id)
         {
-            return await _context.Categories.Include(c => c.Products).FirstOrDefaultAsync(c => c.Id == id);
+            List<Category> categories = await _context.Categories.Include("Products").ToListAsync();
+            foreach (Category category in categories)
+            {
+                if (category.Id == id)
+                {
+                    return category;
+                }
+            }
+            return null;
         }
 
         public async Task<List<Category>> GetAllCategoriesAsync()
         {
-            return await _context.Categories.Include(c => c.Products).ToListAsync();
+            return await _context.Categories.Include("Products").ToListAsync();
         }
 
         public async Task<List<Category>> SearchCategoriesAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
+            {
                 return await GetAllCategoriesAsync();
+            }
 
             query = query.ToLower();
-            return await _context.Categories
-                .Include(c => c.Products)
-                .Where(c => c.Name.ToLower().Contains(query))
-                .ToListAsync();
+            List<Category> allCategories = await GetAllCategoriesAsync();
+            List<Category> result = new List<Category>();
+            foreach (Category category in allCategories)
+            {
+                if (category.Name.ToLower().Contains(query))
+                {
+                    result.Add(category);
+                }
+            }
+            return result;
         }
 
         public async Task AddCategoryAsync(Category category)
@@ -71,24 +87,42 @@ namespace StockFlow.Services
 
         public async Task<Supplier?> GetSupplierByIdAsync(int id)
         {
-            return await _context.Suppliers.Include(s => s.Products).FirstOrDefaultAsync(s => s.Id == id);
+            List<Supplier> suppliers = await _context.Suppliers.Include("Products").ToListAsync();
+            foreach (Supplier supplier in suppliers)
+            {
+                if (supplier.Id == id)
+                {
+                    return supplier;
+                }
+            }
+            return null;
         }
 
         public async Task<List<Supplier>> GetAllSuppliersAsync()
         {
-            return await _context.Suppliers.Include(s => s.Products).ToListAsync();
+            return await _context.Suppliers.Include("Products").ToListAsync();
         }
 
         public async Task<List<Supplier>> SearchSuppliersAsync(string query)
         {
             if (string.IsNullOrWhiteSpace(query))
+            {
                 return await GetAllSuppliersAsync();
+            }
 
             query = query.ToLower();
-            return await _context.Suppliers
-                .Include(s => s.Products)
-                .Where(s => s.Name.ToLower().Contains(query) || s.ContactInfo.ToLower().Contains(query))
-                .ToListAsync();
+            List<Supplier> allSuppliers = await GetAllSuppliersAsync();
+            List<Supplier> result = new List<Supplier>();
+            foreach (Supplier supplier in allSuppliers)
+            {
+                bool nameMatches = supplier.Name.ToLower().Contains(query);
+                bool contactMatches = supplier.ContactInfo != null && supplier.ContactInfo.ToLower().Contains(query);
+                if (nameMatches || contactMatches)
+                {
+                    result.Add(supplier);
+                }
+            }
+            return result;
         }
 
         public async Task AddSupplierAsync(Supplier supplier)

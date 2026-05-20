@@ -1,7 +1,7 @@
 using StockFlow.Models;
 using StockFlow.Repositories;
-using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace StockFlow.Services
 {
@@ -16,23 +16,34 @@ namespace StockFlow.Services
 
         public async Task<User?> LoginAsync(string username, string password)
         {
-            var users = await _userRepository.FindAsync(u => u.Username == username);
-            var user = users.FirstOrDefault();
+            IEnumerable<User> users = await _userRepository.GetAllAsync();
+            User? user = null;
+            foreach (User currentUser in users)
+            {
+                if (currentUser.Username == username)
+                {
+                    user = currentUser;
+                    break;
+                }
+            }
 
             if (user != null && BCrypt.Net.BCrypt.Verify(password, user.PasswordHash))
             {
                 return user;
             }
-
+            
             return null;
         }
 
         public async Task<bool> RegisterAsync(string username, string password, string role = "PartTimeStaff")
         {
-            var existing = await _userRepository.FindAsync(u => u.Username == username);
-            if (existing.Any())
+            IEnumerable<User> users = await _userRepository.GetAllAsync();
+            foreach (User existingUser in users)
             {
-                return false; // Username already exists
+                if (existingUser.Username == username)
+                {
+                    return false;
+                }
             }
 
             var user = new User
@@ -65,7 +76,10 @@ namespace StockFlow.Services
         public async Task<bool> UpdateUserRoleAsync(int userId, string newRole)
         {
             var user = await _userRepository.GetByIdAsync(userId);
-            if (user == null) return false;
+            if (user == null)
+            {
+                return false;
+            }
 
             user.Role = newRole;
             _userRepository.Update(user);

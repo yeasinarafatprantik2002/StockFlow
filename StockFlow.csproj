@@ -17,4 +17,142 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Forms\CategoryEntryForm\CategoryEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CategoryEntryForm\CategoryEntryForm.Designer.cs">
+      <DependentUpon>CategoryEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\CategoryForm\CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\CategoryForm\CategoryForm.Designer.cs">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\DashboardForm\DashboardForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\DashboardForm\DashboardForm.Designer.cs">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\LoginForm\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\LoginForm\LoginForm.Designer.cs">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\NewSaleForm\NewSaleForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\NewSaleForm\NewSaleForm.Designer.cs">
+      <DependentUpon>NewSaleForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\ProductEntryForm\ProductEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ProductEntryForm\ProductEntryForm.Designer.cs">
+      <DependentUpon>ProductEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\ProductForm\ProductForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ProductForm\ProductForm.Designer.cs">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\ReportsForm\ReportsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\ReportsForm\ReportsForm.Designer.cs">
+      <DependentUpon>ReportsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\SalesForm\SalesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SalesForm\SalesForm.Designer.cs">
+      <DependentUpon>SalesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\StockLedgerForm\StockLedgerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\StockLedgerForm\StockLedgerForm.Designer.cs">
+      <DependentUpon>StockLedgerForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\StockManagementForm\StockManagementForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\StockManagementForm\StockManagementForm.Designer.cs">
+      <DependentUpon>StockManagementForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\SupplierEntryForm\SupplierEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SupplierEntryForm\SupplierEntryForm.Designer.cs">
+      <DependentUpon>SupplierEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\SupplierForm\SupplierForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\SupplierForm\SupplierForm.Designer.cs">
+      <DependentUpon>SupplierForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\UserEntryForm\UserEntryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserEntryForm\UserEntryForm.Designer.cs">
+      <DependentUpon>UserEntryForm.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Forms\UserForm\UserForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\UserForm\UserForm.Designer.cs">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\CategoryEntryForm\CategoryEntryForm.resx">
+      <DependentUpon>CategoryEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\CategoryForm\CategoryForm.resx">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\DashboardForm\DashboardForm.resx">
+      <DependentUpon>DashboardForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\LoginForm\LoginForm.resx">
+      <DependentUpon>LoginForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\NewSaleForm\NewSaleForm.resx">
+      <DependentUpon>NewSaleForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\ProductEntryForm\ProductEntryForm.resx">
+      <DependentUpon>ProductEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\ProductForm\ProductForm.resx">
+      <DependentUpon>ProductForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\ReportsForm\ReportsForm.resx">
+      <DependentUpon>ReportsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\SalesForm\SalesForm.resx">
+      <DependentUpon>SalesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\StockLedgerForm\StockLedgerForm.resx">
+      <DependentUpon>StockLedgerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\StockManagementForm\StockManagementForm.resx">
+      <DependentUpon>StockManagementForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\SupplierEntryForm\SupplierEntryForm.resx">
+      <DependentUpon>SupplierEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\SupplierForm\SupplierForm.resx">
+      <DependentUpon>SupplierForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\UserEntryForm\UserEntryForm.resx">
+      <DependentUpon>UserEntryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Forms\UserForm\UserForm.resx">
+      <DependentUpon>UserForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>
